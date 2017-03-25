@@ -45,6 +45,7 @@ angular.module('etapartments')
     }
     search.sendAnchor(params, function(data) {
       this.anchors.push(data.data);
+      console.log(data);
       // Should recenter map based on centroid of last anchor object
       // Should display all anchors
     }.bind(this))
