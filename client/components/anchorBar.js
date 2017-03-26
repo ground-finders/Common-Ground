@@ -2,13 +2,18 @@ angular.module('etapartments')
 .directive('anchorBar', function($timeout) {
   return {
     link: function(scope, element, attrs, controller) {
-        var options = {
-          types: [],
+        var nameOptions = {
+          types: ['establishment'],
         };
-        
+        var addressOptions = {
+          types: ["address"]
+        };
+        var nameForm = element[0].children[0].children[0].children[1];
+        var addressForm = element[0].children[0].children[0].children[3];
         
         $timeout(function() {
-          controller.initAutocomplete(options, element[0].children[0].children[0].children[0], element)}, 1000);      
+          controller.initAutocomplete(nameOptions, addressOptions, nameForm, addressForm);
+        }, 1000);
         },
     scope: {
       sendanchor: '<'
@@ -32,14 +37,23 @@ angular.module('etapartments')
     $scope.anchor.query = '';
   };
 
-  this.autocomplete;
-  this.initAutocomplete = function(options, input, element) {
-    this.autocomplete = new $window.google.maps.places.Autocomplete(input, options);
+  this.autocompleteName;
+  this.autocompleteAddress;
+
+  this.initAutocomplete = function(nameOptions, addressOptions, nameElement, addressElement) {
+    this.autocompleteName = new $window.google.maps.places.Autocomplete(nameElement, nameOptions);
+    this.addListener(this.autocompleteName);
+    this.autocompleteAddress = new $window.google.maps.places.Autocomplete(addressElement, addressOptions);
+    this.addListener(this.autocompleteAddress);
+  }.bind(this);
+
+  this.initAutocompleteAddress = function(options, input, element) {
+    this.autocompleteAddress = new $window.google.maps.places.Autocomplete(input, options);
     this.addListener(element);
   }.bind(this);
 
   this.addListener = function(element) {
-    $window.google.maps.event.addListener(this.autocomplete, 'place_changed', function() {
+    $window.google.maps.event.addListener(element, 'place_changed', function() {
         $scope.$apply(function() {
           $scope.anchor.fillInAddress(element);
         });
@@ -47,7 +61,7 @@ angular.module('etapartments')
   }.bind(this);
 
   this.fillInAddress = function(element) {
-    var place = this.autocomplete.getPlace();
+    var place = element.getPlace();
     
     this.name = place.name;
     this.address = place.address_components[0].long_name + ' ' + place.address_components[1].long_name;
