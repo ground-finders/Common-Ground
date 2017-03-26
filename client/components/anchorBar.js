@@ -29,6 +29,7 @@ angular.module('etapartments')
     $scope.anchor.state = '';
     $scope.anchor.zip = '';
     $scope.anchor.travel_mode = 'driving';
+    $scope.anchor.query = '';
   };
 
   this.autocomplete;
@@ -53,7 +54,6 @@ angular.module('etapartments')
     this.city = place.address_components[3].long_name;
     this.state = place.address_components[5].short_name;
     this.zip = parseInt(place.address_components[7].long_name);
-    console.log(this)
 
   }.bind(this);
 });
