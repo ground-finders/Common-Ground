@@ -36,7 +36,6 @@ angular.module('etapartments')
     $scope.anchor.travel_mode = 'driving';
     $scope.anchor.query = '';
   };
-
   this.autocompleteName;
   this.autocompleteAddress;
 
@@ -45,11 +44,6 @@ angular.module('etapartments')
     this.addListener(this.autocompleteName);
     this.autocompleteAddress = new $window.google.maps.places.Autocomplete(addressElement, addressOptions);
     this.addListener(this.autocompleteAddress);
-  }.bind(this);
-
-  this.initAutocompleteAddress = function(options, input, element) {
-    this.autocompleteAddress = new $window.google.maps.places.Autocomplete(input, options);
-    this.addListener(element);
   }.bind(this);
 
   this.addListener = function(element) {
@@ -61,8 +55,7 @@ angular.module('etapartments')
   }.bind(this);
 
   this.fillInAddress = function(element) {
-    var place = element.getPlace();
-    
+    var place = element.getPlace();  
     this.name = place.name;
     this.address = place.address_components[0].long_name + ' ' + place.address_components[1].long_name;
     this.city = place.address_components[3].long_name;
