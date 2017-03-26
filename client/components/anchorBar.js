@@ -8,8 +8,8 @@ angular.module('etapartments')
         var addressOptions = {
           types: ["address"]
         };
-        var nameForm = element[0].children[0].children[0].children[1];
-        var addressForm = element[0].children[0].children[0].children[3];
+        var nameForm = element[0].children[0].children[0][0];
+        var addressForm = element[0].children[0].children[0][1];
         
         $timeout(function() {
           controller.initAutocomplete(nameOptions, addressOptions, nameForm, addressForm);
