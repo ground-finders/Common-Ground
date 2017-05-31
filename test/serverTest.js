@@ -2,7 +2,8 @@ var should = require('chai').should();
 var chai = require('chai');
 var request = require('supertest');
 var express = require('express');
-var server = request('http://localhost:8080');
+// var server = request('http://localhost:8080');
+var server = request('http://etapartments-staging.herokuapp.com/');
 
 // var app = require('../server.js');
 

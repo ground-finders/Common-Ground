@@ -13,7 +13,16 @@ var flash = require('connect-flash');
 var authUsers = require('./server/db/Models/users')
 var anchorsDb = require('./server/db/Models/anchors')
 
+process.stdout.write('Here in server.js funny name!');
+
+
+
 var app = express();
+
+app.use(function(req, res, next) {
+  process.stdout.write('before auth req.url: ' + req.url + '\n');
+  next();
+})
 
 var port = process.env.PORT || 8080;
 
@@ -25,7 +34,7 @@ app.use('/config', express.static(path.join(__dirname, '/config')));
 
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(session({secret: 'keyboard cat'}));
 
@@ -34,8 +43,14 @@ app.use(passport.session());
 app.use(flash());
 
 
+app.use(function(req, res, next) {
+  process.stdout.write('req.url: ' + req.url + '\n');
+  next();
+})
 
-
+app.get('/testing', function(req, res) {
+  res.status(200).send();
+})
 //dummy strategy
 //if username is tyler, successful login
 //else unsuccessful
